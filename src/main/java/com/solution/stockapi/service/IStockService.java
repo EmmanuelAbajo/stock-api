@@ -9,5 +9,8 @@ public interface IStockService {
 	
 	Stock create(StockDTO stockDto);
 	List<StockDTO> getAll();
+	void delete(Integer id);
+	StockDTO getByID(Integer id);
+	StockDTO update(StockDTO stockDto, Integer id);
 
 }

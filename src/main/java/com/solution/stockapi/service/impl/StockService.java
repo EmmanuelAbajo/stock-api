@@ -48,4 +48,22 @@ public class StockService implements IStockService {
 
 		return stocks;
 	}
+
+	@Override
+	public void delete(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public StockDTO getByID(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StockDTO update(StockDTO stockDto, Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
