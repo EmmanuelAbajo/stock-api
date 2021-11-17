@@ -9,18 +9,35 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Stock {
 
 	@Id
 	@GeneratedValue
 	private Integer id;
+	
+	@Column(name = "name")
+	private String name;
 
 	@Column(name = "current_price")
 	private String price;
 
 	private Date create_date;
+	
+	@JsonIgnore
 	private Date last_update;
+	
+	public Stock() {
+		super();
+	}
+
+	public Stock(String name, String price) {
+		super();
+		this.name = name;
+		this.price = price;
+	}
 
 	@PrePersist
 	protected void onCreate() {
@@ -63,5 +80,15 @@ public class Stock {
 	public void setLast_update(Date last_update) {
 		this.last_update = last_update;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 
 }
