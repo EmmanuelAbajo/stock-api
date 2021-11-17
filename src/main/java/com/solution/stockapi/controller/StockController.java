@@ -53,5 +53,7 @@ public class StockController {
 	public ResponseEntity<StockDTO> updateStock(@PathVariable Integer id, @RequestBody StockDTO stockDto) {
 		return ResponseEntity.ok(service.update(stockDto, id));
 	}
+	
+	
 
 }

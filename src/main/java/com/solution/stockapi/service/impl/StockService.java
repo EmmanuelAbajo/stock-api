@@ -3,6 +3,7 @@ package com.solution.stockapi.service.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.solution.stockapi.dto.StockDTO;
 import com.solution.stockapi.entity.Stock;
+import com.solution.stockapi.exception.StockNotFoundException;
 import com.solution.stockapi.repository.StockRepository;
 import com.solution.stockapi.service.IStockService;
 
@@ -39,7 +41,7 @@ public class StockService implements IStockService {
 			Iterator<Stock> result = repo.findAll().iterator();
 			while (result.hasNext()) {
 				Stock stock = result.next();
-				stocks.add(new StockDTO(stock.getId(),stock.getName(), stock.getPrice()));
+				stocks.add(new StockDTO(stock));
 			}
 		} catch (Exception ex) {
 			logger.error("Error in fetching all stocks: {}", ex.getMessage());
@@ -51,19 +53,29 @@ public class StockService implements IStockService {
 
 	@Override
 	public void delete(Integer id) {
-		// TODO Auto-generated method stub
-		
+		logger.info("Deleting stock with id: {}", id.toString());
+		repo.deleteById(id);
 	}
 
 	@Override
 	public StockDTO getByID(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("Finding stock with id: {}", id.toString());
+		return repo.findById(id).map(StockDTO::new).orElseThrow(() -> new StockNotFoundException(id));
 	}
 
 	@Override
 	public StockDTO update(StockDTO stockDto, Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findById(id).map(stock -> {
+			if (!Objects.isNull(stockDto.getName())) {
+				stock.setName(stockDto.getName());
+			}
+
+			if (!Objects.isNull(stockDto.getPrice())) {
+				stock.setName(stockDto.getPrice());
+			}
+
+			return repo.save(stock);
+		}).map(StockDTO::new).orElseThrow(() -> new StockNotFoundException(id));
+
 	}
 }

@@ -2,6 +2,7 @@ package com.solution.stockapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.solution.stockapi.entity.Stock;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -26,6 +27,13 @@ public class StockDTO {
 		this.id = id;
 		this.name = name;
 		this.price = price;
+	}
+	
+	public StockDTO(Stock stock) {
+		super();
+		this.id = stock.getId();
+		this.name = stock.getName();
+		this.price = stock.getPrice();
 	}
 
 	public Integer getId() {
