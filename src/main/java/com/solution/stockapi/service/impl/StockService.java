@@ -54,6 +54,7 @@ public class StockService implements IStockService {
 	@Override
 	public void delete(Integer id) {
 		logger.info("Deleting stock with id: {}", id.toString());
+		repo.findById(id).orElseThrow(() -> new StockNotFoundException(id));
 		repo.deleteById(id);
 	}
 
@@ -65,6 +66,7 @@ public class StockService implements IStockService {
 
 	@Override
 	public StockDTO update(StockDTO stockDto, Integer id) {
+		logger.info("Updating stock id {} details with {}", id.toString(), stockDto);
 		return repo.findById(id).map(stock -> {
 			if (!Objects.isNull(stockDto.getName())) {
 				stock.setName(stockDto.getName());
